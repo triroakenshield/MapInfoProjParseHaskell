@@ -62,5 +62,8 @@ testProjection (Projection i _ _ _ _ _ _) k = i == k
 getProjectionsById :: Integer -> [Projection]
 getProjectionsById x = filter (`testProjection` x) projectionList
 
+
+getProjectionsById2 i = filter (\x -> testProjection x i) projectionList
+
 getProjectionById :: Integer -> Projection
 getProjectionById = head . getProjectionsById

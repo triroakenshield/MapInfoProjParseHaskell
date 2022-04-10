@@ -25,6 +25,10 @@ source-repository head
 
 library
   exposed-modules:
+      CoordinateReferenceSystemDescription
+      Datum
+      Description
+      Ellipsoid
       Param
       Projection
   other-modules:

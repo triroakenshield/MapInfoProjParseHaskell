@@ -3,6 +3,8 @@ module Main where
 import qualified Data.Text as T
 
 import Param (Parameter(Parameter), parameterList, textParameter, showParameter, testParameter, getParametersById, getParameterById)
+import Projection  ( Projection(Projection), getProjectionById )
+import CoordinateReferenceSystemDescription ( CoordinateReferenceSystemDescription( CoordinateReferenceSystemDescription), getParameterId)
 
 aWord :: T.Text
 aWord = T.pack "\"МСК-66 зона 1, 3 градусная\", 8, 1001, 7, 60.05, 0, 1, 1500000, -5911057.63"
@@ -13,6 +15,9 @@ sWord = T.pack "\""
 list1 :: (T.Text, T.Text)
 list1 = T.breakOnEnd sWord aWord
 
+list11 :: T.Text -> (T.Text, T.Text)
+list11 = T.breakOnEnd sWord
+
 index3 :: Maybe Int
 index3 = T.findIndex  (== '"') aWord
 
@@ -22,19 +27,38 @@ thirdWord = (T.unpack . fst) list1
 tail1 :: T.Text
 tail1 = snd list1
 
+tail11 :: T.Text -> T.Text
+tail11 x = snd list1
+
 sep :: T.Text
 sep = T.pack ","
 
 list2 :: [T.Text]
 list2 = T.splitOn sep tail1
 
+list22 :: T.Text -> [T.Text]
+list22 = T.splitOn sep . tail11
+
 i2 :: Integer
 i2 = read val1
      where val1 = T.unpack elem1
                   where elem1 = list2 !! 1
 
+teest :: Integer -> Integer
+teest res
+             | res > 2999 = res - 3000
+             | res > 1999 = res - 2000
+             | res > 999  = res - 1000
+
+iid = getParameterId aWord
+
+prj :: T.Text -> Projection
+prj = getProjectionById . getParameterId
+
 main :: IO ()
-main = (putStrLn . showParameter) test
-       where test = getParameterById 1
+main = (putStrLn . T.unpack) tail1
+
+--main = (putStrLn . showParameter) test
+       --where test = getParameterById 1
 
 --main = (putStrLn . T.unpack . showParameter) test1
