@@ -1,7 +1,7 @@
 module Projection where
 
 import qualified Data.Text as T
-import Description
+import Description ( getItemById )
 
 data Projection = Projection {
     id :: Integer
