@@ -31,6 +31,7 @@ library
       Ellipsoid
       Param
       Projection
+      Unit
   other-modules:
       Paths_MapInfoProjParseHaskell
   hs-source-dirs:
