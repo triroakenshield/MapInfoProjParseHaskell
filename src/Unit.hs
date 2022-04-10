@@ -1,7 +1,7 @@
-module Projection where
+module Unit where
 
 import qualified Data.Text as T
-import Description
+import Description ( getItemById )
 
 data Unit = Unit {
     id :: Integer,
@@ -16,7 +16,7 @@ data Unit = Unit {
 
 textUnit :: Unit -> T.Text
 textUnit (Unit i e pr na rn b c te) = str
-                                      where str = mconcat [(T.pack . show) i, " ", (T.pack . show) e, " ", pr, " ", na, " ", rn, " ", (T.pack . show) b, " ", (T.pack . show) c, " ", te]
+                                      where str = mconcat [(T.pack . show) i, " ", (T.pack . show) e, " ", pr, " ", na, " ", rn, " ", (T.pack . show) b, " ", (T.pack . show) c, " ", (T.pack . show) te]
   
 showUnit :: Unit -> String
 showUnit = show . T.unpack . textUnit
@@ -40,3 +40,9 @@ unitList = [
     Unit 31 9097 "ch" "Chains" "чейн" 20.1168 1 9001,
     Unit 32 (-1) "rod" "Rods" "род" 33 2 9003
     ]
+
+testUnit :: Unit -> Integer -> Bool
+testUnit (Unit i _ _ _ _ _ _ _) k = i == k
+    
+getUnitById :: Integer -> Unit
+getUnitById = getItemById testUnit unitList

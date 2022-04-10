@@ -15,12 +15,12 @@ data Ellipsoid = Ellipsoid {
 textEllipsoid :: Ellipsoid -> T.Text
 textEllipsoid (Ellipsoid i e pr na a f1) = str
                                         where str = mconcat [(T.pack . show) i, " ", (T.pack . show) e, " ", pr, " ", na, " ", (T.pack . show) a, " ", (T.pack . show) f1]
-  
+
 showEllipsoid :: Ellipsoid -> String
 showEllipsoid = show . T.unpack . textEllipsoid
 
 toProj :: Ellipsoid -> String
-toProj (Ellipsoid i e pr na a f1) = if pr == ""   
+toProj (Ellipsoid i e pr na a f1) = if pr == "" 
                                      then "+a=" ++ show a ++ "+f=" ++ show f1
                                      else "+ellps=" ++ T.unpack pr
 

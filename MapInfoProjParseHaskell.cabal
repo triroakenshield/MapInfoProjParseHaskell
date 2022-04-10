@@ -27,6 +27,7 @@ library
   exposed-modules:
       CoordinateReferenceSystemDescription
       Datum
+      DatumExt
       Description
       Ellipsoid
       Param
