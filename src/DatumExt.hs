@@ -1,6 +1,7 @@
 module DatumExt where 
 
 import qualified Data.Text as T
+import Description ( getItemById )
 import Ellipsoid ( Ellipsoid, getEllipsoidById, toProj )
 
 data DatumExt = DatumExt {
@@ -34,7 +35,7 @@ getRotation rx ry rz s = "" ++ show (rx * (-1)) ++ "," ++ show (rx * (-1)) ++ ",
 
 getPrimeMeridian pm = if pm == 0
                        then ""
-                       else "+pm=" ++ show pm
+                       else " +pm=" ++ show pm
 
 toProj :: DatumExt -> String
 toProj (DatumExt _ _ pr _ el x y z rx ry rz s pm) = if pr == ""
@@ -63,3 +64,9 @@ datumExtList = [
     DatumExt 1018 (-1) "Lithuanian Pulkovo 1942" "" (getEllipsoidById 3) (-40.5953) (-18.5498) (-69.3396) (-2.508) (-1.8319) 2.6114 (-4.2991) 0,
     DatumExt 1019 (-1) "Belgian 1972 7 Parameter" "" (getEllipsoidById 4) (-99.059) 53.322 (-112.486) (-0.419) 0.83 (-1.885) 0.999999 0
     ]
+
+testDatumExt :: DatumExt -> Integer -> Bool
+testDatumExt (DatumExt i _ _ _ _ _ _ _ _ _ _ _ _) k = i == k
+
+getDatumExtById :: Integer -> DatumExt
+getDatumExtById = getItemById testDatumExt datumExtList

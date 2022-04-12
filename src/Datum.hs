@@ -24,7 +24,7 @@ showDatum = show . T.unpack . textDatum
 
 toProj :: Datum -> String
 toProj (Datum _ _ pr _ el x y z) = if pr == ""
-                                   then Ellipsoid.toProj el ++ "+towgs84=" ++ show x ++ "," ++ show y ++ "," ++ show z
+                                   then Ellipsoid.toProj el ++ " +towgs84=" ++ show x ++ "," ++ show y ++ "," ++ show z
                                    else "+datum=" ++ T.unpack pr
 
 datumList :: [Datum]
@@ -190,3 +190,5 @@ testDatum (Datum i _ _ _ _ _ _ _) k = i == k
 
 getDatumById :: Integer -> Datum
 getDatumById = getItemById testDatum datumList
+
+--getDatumByLIst list1 = 

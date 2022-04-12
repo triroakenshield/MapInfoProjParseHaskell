@@ -4,7 +4,7 @@ import qualified Data.Text as T
 
 import Param (Parameter(Parameter), parameterList, textParameter, showParameter, testParameter, getParametersById, getParameterById)
 import Projection  ( Projection(Projection), getProjectionById )
-import CoordinateReferenceSystemDescription ( CoordinateReferenceSystemDescription( CoordinateReferenceSystemDescription), getParameterId)
+import CoordinateReferenceSystemDescription ( CoordinateReferenceSystemDescription( CoordinateReferenceSystemDescription), getParameterId, getDatumFromList, getDatumExtFromList)
 
 aWord :: T.Text
 aWord = T.pack "\"МСК-66 зона 1, 3 градусная\", 8, 1001, 7, 60.05, 0, 1, 1500000, -5911057.63"
@@ -54,6 +54,10 @@ iid = getParameterId aWord
 
 prj :: T.Text -> Projection
 prj = getProjectionById . getParameterId
+
+test1 = getDatumFromList (999, [" 3"," -150"," -251"," -2"])
+
+test2 = getDatumExtFromList (9999, [" 3", "23.57","-140.95", "-79.8", "0", "-0.35", "-0.79", "-0.22", "1.1"])
 
 main :: IO ()
 main = (putStrLn . T.unpack) tail1
