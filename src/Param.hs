@@ -1,6 +1,8 @@
-module Param (Parameter(Parameter), parameterList, textParameter, showParameter, testParameter, getParametersById, getParameterById) where 
+module Param (Parameter(Parameter), parameterList, textParameter, showParameter, testParameter, getParameterById) where 
 
 import qualified Data.Text as T
+
+import Description ( getItemById )
 
 data Parameter = Parameter {
       id :: Integer
@@ -36,8 +38,5 @@ parameterList = [
 testParameter :: Parameter -> Integer -> Bool
 testParameter (Parameter i _ _ _ _ _) k = i == k
 
-getParametersById :: Integer -> [Parameter]
-getParametersById x = filter (`testParameter` x) parameterList
-
 getParameterById :: Integer -> Parameter
-getParameterById = head . getParametersById
+getParameterById = getItemById testParameter parameterList

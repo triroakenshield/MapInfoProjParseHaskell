@@ -39,8 +39,8 @@ getPrimeMeridian pm = if pm == 0
 
 toProj :: DatumExt -> String
 toProj (DatumExt _ _ pr _ el x y z rx ry rz s pm) = if pr == ""
-                                                     then Ellipsoid.toProj el ++ "+towgs84=" ++ getXYZ x y z ++ "," ++ getRotation rx ry rz s ++ getPrimeMeridian pm
-                                                     else "+datum=" ++ T.unpack pr
+                                                     then Ellipsoid.toProj el ++ " +towgs84=" ++ getXYZ x y z ++ "," ++ getRotation rx ry rz s ++ getPrimeMeridian pm
+                                                     else " +datum=" ++ T.unpack pr
 
 datumExtList :: [DatumExt]
 datumExtList = [
