@@ -18,7 +18,7 @@ sep :: T.Text
 sep = T.pack ","
 
 getParameters :: T.Text -> [T.Text]
-getParameters = T.splitOn sep . getTail
+getParameters = tail . T.splitOn sep . getTail
 
 getParameterStr :: Int -> T.Text -> T.Text
 getParameterStr id text = getParameters text !! id
@@ -36,7 +36,7 @@ getDoubleN :: [T.Text] -> Int -> Double
 getDoubleN list i = getDouble (list !! i)
 
 getParameterInt :: T.Text -> Integer
-getParameterInt = getInteger . getParameterStr 1
+getParameterInt = getInteger . getParameterStr 0
 
 getNextParameterStr :: [T.Text] -> (T.Text, [T.Text])
 getNextParameterStr list = (head list, tail list)

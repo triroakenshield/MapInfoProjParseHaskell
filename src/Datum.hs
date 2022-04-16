@@ -188,7 +188,6 @@ datumList = [
 testDatum :: Datum -> Integer -> Bool
 testDatum (Datum i _ _ _ _ _ _ _) k = i == k
 
-getDatumById :: Integer -> Datum
 getDatumById = getItemById testDatum datumList
 
 --getDatumByLIst list1 = 

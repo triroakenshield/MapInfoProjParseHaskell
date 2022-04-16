@@ -40,3 +40,4 @@ testParameter (Parameter i _ _ _ _ _) k = i == k
 
 getParameterById :: Integer -> Parameter
 getParameterById = getItemById testParameter parameterList
+

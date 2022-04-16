@@ -3,7 +3,10 @@ module Main where
 import qualified Data.Text as T
 
 import Description
+import Unit
 import Param (Parameter(Parameter), parameterList, textParameter, showParameter, testParameter, getParameterById)
+import Datum
+import DatumExt
 import Projection  ( Projection(Projection), getProjectionById )
 import CoordinateReferenceSystemDescription
 
@@ -54,6 +57,25 @@ test2 = getDatumExtFromList (9999, [" 3", "23.57","-140.95", "-79.8", "0", "-0.3
 test3 = getParamTailByDatum (9999, [" 3", "23.57","-140.95", "-79.8", "0", "-0.35", "-0.79", "-0.22", "1.1"])
 
 test4 = getParamTailByDatum (999, [" 3"," -150"," -251"," -2"])
+
+aWord1 =  T.pack "\"МСК-27 зона 1\", 8, 9999, 3, 23.57, -140.95, -79.8, 0, -0.35, -0.79, -0.22, 0, 7, 130.71666666666, 0, 1, 1300000, -4916586.44"
+
+parse1 text = ( getName text, getParameters text) -- , (getProjection (head (getParameters text)))
+
+p1 = head (getParameters aWord1)
+
+p2 = getProjection p1
+
+--list3 = [(getDatumById 3), (getUnitById 7)] -- , (getUnitById 7)
+
+data Contain = CFoo Datum | CBar DatumExt
+list4 = [CFoo test1, CBar test2]
+
+
+
+
+
+
 
 main :: IO ()
 main = (putStrLn . T.unpack) tail1
