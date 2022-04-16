@@ -1,4 +1,4 @@
-module Param (Parameter(Parameter), parameterList, textParameter, showParameter, testParameter, getParameterById) where 
+module Param where 
 
 import qualified Data.Text as T
 
@@ -7,11 +7,16 @@ import Description ( getItemById )
 data Parameter = Parameter {
       id :: Integer
     , epsg :: Integer
-    , proj :: T.Text
+    , wktName :: T.Text
     , name :: T.Text
     , ruName :: T.Text
-    , wktName :: T.Text
+    , proj :: T.Text
 } deriving (Show)
+
+data ParamDoble = ParamDoble {
+       param :: Parameter,
+       value :: Double
+}
 
 textParameter :: Parameter -> T.Text
 textParameter (Parameter i e n r w p) = str

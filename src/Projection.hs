@@ -13,6 +13,9 @@ data Projection = Projection {
     , parameters :: [Integer]
 } deriving (Show)
 
+toProj :: Projection -> String
+toProj (Projection _ _ _ _ _ p _) = "+proj=" ++ T.unpack p
+
 textProjection :: Projection -> T.Text
 textProjection (Projection i e n r w p ps) = str
                                              where str = mconcat [(T.pack . show) i, " ", (T.pack . show) e, " ", n, " ", r, " ", w, " ", p]
