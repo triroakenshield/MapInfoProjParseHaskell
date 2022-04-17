@@ -5,14 +5,14 @@ import qualified Data.Text as T
 sWord :: T.Text
 sWord = T.pack "\""
 
-list12 :: T.Text -> (T.Text, T.Text)
-list12 = T.breakOnEnd sWord
+splitString :: T.Text -> (T.Text, T.Text)
+splitString = T.breakOnEnd sWord
 
 getName :: T.Text -> T.Text
-getName = fst . list12
+getName = fst . splitString
 
 getTail :: T.Text -> T.Text
-getTail = snd . list12
+getTail = snd . splitString
 
 sep :: T.Text
 sep = T.pack ","
@@ -47,10 +47,13 @@ getNextParameterInteger list = (getInteger (head list), tail list)
 getNextParameterDouble :: [T.Text] -> (Double, [T.Text])
 getNextParameterDouble list = (getDouble (head list), tail list)
 
+filterList :: (a -> t -> Bool) -> [a] -> t -> [a]
 filterList func list i = filter (`func` i) list
 
+getItemById :: (a -> t -> Bool) -> [a] -> t -> a
 getItemById func list i = head (filterList func list i)
 
+getParamTail :: (Eq t, Num t) => [a] -> t -> [a]
 getParamTail list1 i = if i == 0
                        then tail list1
                        else getParamTail (tail list1) (i - 1)

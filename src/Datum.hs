@@ -1,8 +1,8 @@
 module Datum where 
 
 import qualified Data.Text as T
-import Description ( getItemById )
-import Ellipsoid ( Ellipsoid, getEllipsoidById, toProj )
+import Description
+import Ellipsoid
 
 data Datum = Datum{
     id :: Integer,
@@ -188,6 +188,5 @@ datumList = [
 testDatum :: Datum -> Integer -> Bool
 testDatum (Datum i _ _ _ _ _ _ _) k = i == k
 
+getDatumById :: Integer -> Datum
 getDatumById = getItemById testDatum datumList
-
---getDatumByLIst list1 = 
