@@ -1,21 +1,61 @@
 module Main where
 
+import Control.Applicative
 import qualified Data.Text as T
+
+import Telegram.Bot.API
+import Telegram.Bot.Simple
+import Telegram.Bot.Simple.UpdateParser
 
 import Description
 import CoordinateReferenceSystemDescription
 
-aWord :: T.Text
-aWord = T.pack "\"МСК-66 зона 1, 3 градусная\", 8, 1001, 7, 60.05, 0, 1, 1500000, -5911057.63"
+type Item = T.Text
 
-aWord1 :: T.Text
-aWord1 =  T.pack "\"МСК-27 зона 1\", 8, 9999, 3, 23.57, -140.95, -79.8, 0, -0.35, -0.79, -0.22, 0, 7, 130.71666666666, 0, 1, 1300000, -4916586.44"
+data Model = Model
+  { current :: T.Text
+  }
 
-crs :: CoordinateReferenceSystemDescription
-crs = getCRS2 aWord1
+initialModel :: Model
+initialModel = Model { current = "test"  }
 
-itogStr :: String
-itogStr = CoordinateReferenceSystemDescription.toProj crs
+data Action
+  =  Start |
+  MiToProj T.Text
+  deriving (Show, Read)
+
+testBot1 :: BotApp Model Action
+testBot1 = BotApp
+  { botInitialModel = initialModel
+  , botAction = flip updateToAction
+  , botHandler = handleAction
+  , botJobs = []
+  }
+  where
+    updateToAction :: Model -> Update -> Maybe Action
+    updateToAction _ = parseUpdate $ 
+          Start    <$  command "start"
+      <|> MiToProj <$> command "miToProj"
+      <|> callbackQueryDataRead
+
+    handleAction :: Action -> Model -> Eff Action Model
+    handleAction action model = case action of 
+        Start -> model <# do 
+            reply (toReplyMessage startMessage)    
+        MiToProj item -> model <# do 
+            reply (toReplyMessage (parse1 item))
+
+    startMessage = T.unlines [ "test1 miToProj" ]
+  
+parse1 item = T.pack (CoordinateReferenceSystemDescription.toProj (getCRS2 item))
+
+run :: Token -> IO ()
+run token = do
+  env <- defaultTelegramClientEnv token
+  startBot_ (conversationBot updateChatId testBot1) env
 
 main :: IO ()
-main = putStrLn itogStr
+main = do
+  putStrLn "Please, enter Telegram bot's API token:"
+  token <- Token . T.pack <$> getLine
+  run token
